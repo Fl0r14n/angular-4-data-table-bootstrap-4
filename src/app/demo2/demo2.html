@@ -1,9 +1,11 @@
+<h1>DEMO 2</h1>
 <div style="margin: auto; max-width: 600px;">
   <div>
     <span>Highlight after: </span>
     <input type="number" [(ngModel)]="yearLimit" class="form-control input-sm"
            style="display: inline-block; width: 100px">
   </div>
+ 
   <data-table
     [items]="cars"
     [itemCount]="carCount"
@@ -12,6 +14,7 @@
     [indexColumn]="false"
     [selectColumn]="true"
     [multiSelect]="true"
+    (rowsSelected)="onRowsSelected($event)"
     [rowColors]="rowColors">
     <data-table-title title="Cars (Multiple selection)" [controls]="false"></data-table-title>
     <data-table-column
