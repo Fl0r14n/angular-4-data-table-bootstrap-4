@@ -1,3 +1,4 @@
+<h1>DEMO 3</h1>
 <div style="margin: auto; max-width: 1000px; margin-top:50px; margin-bottom: 50px;">
   <data-table id="films-grid"
               [items]="films"
@@ -13,6 +14,7 @@
               [translations]="translations"
               [indexColumnHeader]="'#'"
               [selectOnRowClick]="true"
+              (rowsSelected)="onRowsSelected($event)"
               (rowExpand)="rowExpand($event)">
     <data-table-title title="Films (Single selection)"></data-table-title>
     <ng-template #expandTemplate let-item="item">

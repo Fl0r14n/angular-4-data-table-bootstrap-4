@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {DataTable, DataTableParams, DataTableResource} from '../datatable';
+import {DataTable, DataTableParams, DataTableResource, DataTableRow} from '../datatable';
 import {cars} from './demo2-data';
 
 interface Car {
@@ -18,6 +18,7 @@ export class Demo2 {
 
   carResource = new DataTableResource<Car>(cars);
   cars: Car[] = [];
+  carsSelected: Car[] = [];
   carCount = 0;
   yearLimit = 1999;
 
@@ -43,5 +44,18 @@ export class Demo2 {
     if (car.year >= this.yearLimit) {
       return 'rgb(255, 255, 197)';
     }
+  }
+
+
+  onRowsSelected(rows: DataTableRow<Car>[]) {
+    console.log('onRowsSelected fired!', rows);
+    this.carsSelected = [];
+
+    if (rows) {
+      rows.forEach(row => {
+        this.carsSelected.push(row.item);
+      });
+    }
+    console.log('item selected:', this.carsSelected);
   }
 }

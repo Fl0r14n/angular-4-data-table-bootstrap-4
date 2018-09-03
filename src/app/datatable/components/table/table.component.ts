@@ -11,8 +11,8 @@ import {
   TemplateRef,
   ViewChildren
 } from '@angular/core';
-import {DataTableColumn, DataTableRow, DataTableTitle} from '../../';
-import {drag} from '../../utils/drag';
+import { DataTableColumn, DataTableRow, DataTableTitle } from '../../';
+import { drag } from '../../utils/drag';
 import {
   DataTableCellEvent,
   DataTableHeaderEvent,
@@ -22,6 +22,9 @@ import {
   defaultTranslations,
   RowCallback
 } from '../types';
+import { Array } from 'core-js';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -31,6 +34,7 @@ import {
 })
 export class DataTable<T> implements DataTableParams, OnInit {
 
+  _rowChangeObserver: any;
   // UI state without input:
   indexColumnVisible: boolean;
   selectColumnVisible: boolean;
@@ -94,6 +98,9 @@ export class DataTable<T> implements DataTableParams, OnInit {
   cellClick: EventEmitter<DataTableCellEvent<T>> = new EventEmitter();
   @Output()
   reload: EventEmitter<DataTableParams> = new EventEmitter();
+
+  @Output()
+  rowsSelected: EventEmitter<DataTableRow<T>[]> = new EventEmitter();
 
   // UI components:
   @ContentChild(forwardRef(() => DataTableTitle))
@@ -198,7 +205,7 @@ export class DataTable<T> implements DataTableParams, OnInit {
   }
 
   get substituteItems() {
-    return Array.from({length: this.displayParams!.limit - this.items.length});
+    return Array.from({ length: this.displayParams!.limit - this.items.length });
   }
 
   getRowColor(item: any, index: number, row: DataTableRow<T>) {
@@ -219,16 +226,16 @@ export class DataTable<T> implements DataTableParams, OnInit {
   }
 
   rowClicked(row: DataTableRow<T>, event: MouseEvent) {
-    this.rowClick.emit({row, event});
+    this.rowClick.emit({ row, event });
   }
 
   rowDoubleClicked(row: DataTableRow<T>, event: MouseEvent) {
-    this.rowDoubleClick.emit({row, event});
+    this.rowDoubleClick.emit({ row, event });
   }
 
   headerClicked(column: DataTableColumn<T>, event: MouseEvent) {
     if (!this._resizeInProgress) {
-      this.headerClick.emit({column, event});
+      this.headerClick.emit({ column, event });
     } else {
       // this is because I can't prevent click from mousup of the drag end
       this._resizeInProgress = false;
@@ -236,14 +243,15 @@ export class DataTable<T> implements DataTableParams, OnInit {
   }
 
   cellClicked(column: DataTableColumn<T>, row: DataTableRow<T>, event: MouseEvent) {
-    this.cellClick.emit({row, column, event});
+    this.cellClick.emit({ row, column, event });
   }
 
   rowExpanded(row: DataTableRow<T>, event: MouseEvent) {
-    this.rowExpand.emit({row, event});
+    this.rowExpand.emit({ row, event });
   }
 
   onRowSelectChanged(row: DataTableRow<T>) {
+    console.log('onRowSelectChanged', row);
     // maintain the selectedRow(s) view
     if (this.multiSelect) {
       let index = this.selectedRows.indexOf(row);
@@ -267,6 +275,15 @@ export class DataTable<T> implements DataTableParams, OnInit {
         }
       });
     }
+
+    let rowsToNotify: DataTableRow<T>[] = [];
+    if (this.selectedRow) {
+      rowsToNotify.push(this.selectedRow);
+    }
+
+    rowsToNotify = rowsToNotify.concat(this.selectedRows);
+    this._rowChangeObserver.next(rowsToNotify);
+
   }
 
   resizeColumnStart(event: MouseEvent, column: DataTableColumn<T>, columnElement: HTMLElement) {
@@ -288,6 +305,11 @@ export class DataTable<T> implements DataTableParams, OnInit {
     if (this.autoReload && this._scheduledReload == null) {
       this.reloadItems();
     }
+    // create a observer to debounce onRowSelectChanged event after 300ms notify changes with emitter
+    const debounceTimeout: number = this.multiSelect ? 300 : 0;
+    Observable.create(observer => {
+      this._rowChangeObserver = observer;
+    }).pipe(debounceTime(debounceTimeout)).pipe(distinctUntilChanged()).subscribe(items => { this.rowsSelected.emit(items); });
   }
 
   private _initDefaultValues() {
@@ -360,6 +382,6 @@ export class DataTable<T> implements DataTableParams, OnInit {
      that offsetWidth sometimes contains out-of-date values. */
     return !((dx < 0 && (columnElement.offsetWidth + dx) <= this.resizeLimit) ||
       !columnElement.nextElementSibling || // resizing doesn't make sense for the last visible column
-      (dx >= 0 && ((<HTMLElement> columnElement.nextElementSibling).offsetWidth + dx) <= this.resizeLimit));
+      (dx >= 0 && ((<HTMLElement>columnElement.nextElementSibling).offsetWidth + dx) <= this.resizeLimit));
   }
 }

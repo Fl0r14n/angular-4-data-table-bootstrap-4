@@ -1,7 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
-import {DataTable, DataTableParams, DataTableResource, DataTableTranslations} from '../datatable';
-import {films} from './demo3-data';
-import {DataTableRowEvent} from '../datatable/components/types';
+import { Component, ViewChild } from '@angular/core';
+import { DataTable, DataTableParams, DataTableResource, DataTableTranslations, DataTableRow } from '../datatable';
+import { films } from './demo3-data';
+import { DataTableRowEvent } from '../datatable/components/types';
+import { root } from 'rxjs/internal/util/root';
 
 interface Film {
   title?: string
@@ -21,6 +22,7 @@ export class Demo3 {
   filmResource = new DataTableResource<Film>(films);
   films: Film[] = [];
   filmCount = 0;
+  filmsSelected: Film[] = [];
   // special params:
   translations = <DataTableTranslations>{
     indexColumn: 'Index column',
@@ -45,5 +47,18 @@ export class Demo3 {
   };
 
   rowExpand(event: DataTableRowEvent<Film>) {
+  }
+
+  onRowsSelected(rows: DataTableRow<Film>[]) {
+    console.log('onRowsSelected fired!', rows);
+    this.filmsSelected = [];
+
+    if (rows) {
+      rows.forEach(row => {
+        this.filmsSelected.push(row.item);
+      });
+    }
+
+    console.log('item selected:', this.filmsSelected);
   }
 }
