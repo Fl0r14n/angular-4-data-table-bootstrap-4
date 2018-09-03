@@ -56,7 +56,6 @@ export class Demo2 {
         this.carsSelected.push(row.item);
       });
     }
-
-    console.log("item selected:", this.carsSelected);
+    console.log('item selected:', this.carsSelected);
   }
 }

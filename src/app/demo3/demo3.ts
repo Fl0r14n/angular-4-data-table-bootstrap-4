@@ -1,7 +1,7 @@
-import {Component, ViewChild} from '@angular/core';
-import {DataTable, DataTableParams, DataTableResource, DataTableTranslations, DataTableRow} from '../datatable';
-import {films} from './demo3-data';
-import {DataTableRowEvent} from '../datatable/components/types';
+import { Component, ViewChild } from '@angular/core';
+import { DataTable, DataTableParams, DataTableResource, DataTableTranslations, DataTableRow } from '../datatable';
+import { films } from './demo3-data';
+import { DataTableRowEvent } from '../datatable/components/types';
 import { root } from 'rxjs/internal/util/root';
 
 interface Film {
@@ -22,7 +22,7 @@ export class Demo3 {
   filmResource = new DataTableResource<Film>(films);
   films: Film[] = [];
   filmCount = 0;
-  filmsSelected:Film[]=[];
+  filmsSelected: Film[] = [];
   // special params:
   translations = <DataTableTranslations>{
     indexColumn: 'Index column',
@@ -59,6 +59,6 @@ export class Demo3 {
       });
     }
 
-    console.log("item selected:", this.filmsSelected);
+    console.log('item selected:', this.filmsSelected);
   }
 }

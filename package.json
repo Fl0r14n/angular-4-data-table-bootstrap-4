@@ -27,13 +27,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Fl0r14n/ngx-datatable-bootstrap4.git"
+    "url": "git@github.com:cfasol/ngx-datatable-bootstrap4.git"
   },
   "peerDependencies": {
     "@angular/core": "*",
     "@angular/common": "*"
   },
-  "author": "Fl0r14n <florian.chis@gmail.com>",
+  "author": "cfasol",
   "license": "MIT",
   "devDependencies": {
     "@angular/compiler": "*",
@@ -86,5 +86,5 @@
     "@angular/core": "*",
     "@angular/forms": "*"
   },
-  "homepage": "https://github.com/Fl0r14n/ngx-datatable-bootstrap4/"
+  "homepage": "https://github.com/cfasol/ngx-datatable-bootstrap4"
 }

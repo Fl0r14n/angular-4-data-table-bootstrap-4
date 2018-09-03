@@ -34,7 +34,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class DataTable<T> implements DataTableParams, OnInit {
 
-  _rowChangeObserver:any;
+  _rowChangeObserver: any;
   // UI state without input:
   indexColumnVisible: boolean;
   selectColumnVisible: boolean;
@@ -305,12 +305,11 @@ export class DataTable<T> implements DataTableParams, OnInit {
     if (this.autoReload && this._scheduledReload == null) {
       this.reloadItems();
     }
-    //create a observer to debounce onRowSelectChanged event after 300ms notify changes with emitter
-    const debounceTimeout:number = this.multiSelect ? 300 : 0;
+    // create a observer to debounce onRowSelectChanged event after 300ms notify changes with emitter
+    const debounceTimeout: number = this.multiSelect ? 300 : 0;
     Observable.create(observer => {
       this._rowChangeObserver = observer;
     }).pipe(debounceTime(debounceTimeout)).pipe(distinctUntilChanged()).subscribe(items => { this.rowsSelected.emit(items); });
-    
   }
 
   private _initDefaultValues() {
