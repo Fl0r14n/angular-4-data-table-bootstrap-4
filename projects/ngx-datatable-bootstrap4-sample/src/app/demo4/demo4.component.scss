@@ -1,0 +1,34 @@
+.demo4-table > tbody {
+
+  tr {
+    background-color: #ffffff;
+    height: 50px;
+    border-bottom: 3px solid #f8fafb;
+
+    td.column-code {
+      color: #0990ec;
+      text-decoration: underline;
+    }
+  }
+}
+
+.calendar-table-wrapper {
+  padding: 0 0.75rem;
+  width: 600px;
+}
+
+.calendar-table {
+  tr {
+    height: initial;
+
+    td {
+      padding: 0;
+      border: none;
+      width: 45px;
+
+      .calendar-control {
+        width: 50px;
+      }
+    }
+  }
+}

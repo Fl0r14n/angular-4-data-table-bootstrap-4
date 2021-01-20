@@ -1,0 +1,32 @@
+{
+  "name": "ngx-datatable-bootstrap4",
+  "version": "1.0.0",
+  "author": "Fl0r14n <florian.chis@gmail.com>",
+  "homepage": "https://github.com/Fl0r14n/ngx-datatable-bootstrap4/",
+  "description": "An Angular data table, with pagination, sorting, expandable rows etc.",
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "angular11",
+    "Angular 11",
+    "ng2",
+    "datatable",
+    "data-table",
+    "data table",
+    "Bootstrap",
+    "Bootstrap 4",
+    "pagination"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Fl0r14n/ngx-datatable-bootstrap4.git"
+  },
+  "peerDependencies": {
+    "@angular/common": "^11.0.9",
+    "@angular/core": "^11.0.9",
+    "@angular/forms": "^11.0.9"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

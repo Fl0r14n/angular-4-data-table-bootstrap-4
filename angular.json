@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-datatable-bootstrap4": {
+      "projectType": "library",
+      "root": "projects/ngx-datatable-bootstrap4",
+      "sourceRoot": "projects/ngx-datatable-bootstrap4/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-datatable-bootstrap4/tsconfig.lib.json",
+            "project": "projects/ngx-datatable-bootstrap4/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-datatable-bootstrap4/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-datatable-bootstrap4/src/test.ts",
+            "tsConfig": "projects/ngx-datatable-bootstrap4/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-datatable-bootstrap4/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-datatable-bootstrap4/tsconfig.lib.json",
+              "projects/ngx-datatable-bootstrap4/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "ngx-datatable-bootstrap4-sample": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngx-datatable-bootstrap4-sample",
+      "sourceRoot": "projects/ngx-datatable-bootstrap4-sample/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngx-datatable-bootstrap4-sample",
+            "index": "projects/ngx-datatable-bootstrap4-sample/src/index.html",
+            "main": "projects/ngx-datatable-bootstrap4-sample/src/main.ts",
+            "polyfills": "projects/ngx-datatable-bootstrap4-sample/src/polyfills.ts",
+            "tsConfig": "projects/ngx-datatable-bootstrap4-sample/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ngx-datatable-bootstrap4-sample/src/favicon.ico",
+              "projects/ngx-datatable-bootstrap4-sample/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-datatable-bootstrap4-sample/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-datatable-bootstrap4-sample/src/environments/environment.ts",
+                  "with": "projects/ngx-datatable-bootstrap4-sample/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-datatable-bootstrap4-sample:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-datatable-bootstrap4-sample:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-datatable-bootstrap4-sample:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-datatable-bootstrap4-sample/src/test.ts",
+            "polyfills": "projects/ngx-datatable-bootstrap4-sample/src/polyfills.ts",
+            "tsConfig": "projects/ngx-datatable-bootstrap4-sample/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-datatable-bootstrap4-sample/karma.conf.js",
+            "assets": [
+              "projects/ngx-datatable-bootstrap4-sample/src/favicon.ico",
+              "projects/ngx-datatable-bootstrap4-sample/src/assets"
+            ],
+            "styles": [
+              "projects/ngx-datatable-bootstrap4-sample/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-datatable-bootstrap4-sample/tsconfig.app.json",
+              "projects/ngx-datatable-bootstrap4-sample/tsconfig.spec.json",
+              "projects/ngx-datatable-bootstrap4-sample/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngx-datatable-bootstrap4-sample/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-datatable-bootstrap4-sample:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-datatable-bootstrap4-sample:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-datatable-bootstrap4"
+}

@@ -1,0 +1,38 @@
+<div class="navbar">
+  <h4 class="title" [textContent]="dataTable.title.title"></h4>
+  <ng-container [ngTemplateOutlet]="dataTable.title.titleTemplate"
+                [ngTemplateOutletContext]="{items: dataTable.items}"
+                *ngIf="dataTable.title.titleTemplate">
+  </ng-container>
+  <div *ngIf="dataTable.title.controls">
+    <button type="button" class="btn btn-default btn-sm refresh-button"
+            (click)="dataTable.reloadItems()">
+      <i class="fa fa-refresh"></i>
+    </button>
+    <button type="button" class="btn btn-default btn-sm column-selector-button"
+            [class.active]="columnSelectorOpen"
+            (click)="columnSelectorOpen = !columnSelectorOpen; $event.stopPropagation()">
+      <i class="fa fa-list"></i>
+    </button>
+    <div class="column-selector-wrapper" (click)="$event.stopPropagation()">
+      <div *ngIf="columnSelectorOpen" class="column-selector-box card">
+        <div *ngIf="dataTable.expandableRows" class="column-selector-fixed-column checkbox">
+            <input type="checkbox" [(ngModel)]="dataTable.expandColumnVisible"/>
+            <span>&nbsp;{{dataTable.translations.expandColumn}}</span>
+        </div>
+        <div *ngIf="dataTable.indexColumn" class="column-selector-fixed-column checkbox">
+            <input type="checkbox" [(ngModel)]="dataTable.indexColumnVisible"/>
+            <span>&nbsp;{{dataTable.translations.indexColumn}}</span>
+        </div>
+        <div *ngIf="dataTable.selectColumn" class="column-selector-fixed-column checkbox">
+            <input type="checkbox" [(ngModel)]="dataTable.selectColumnVisible"/>
+            <span>&nbsp;{{dataTable.translations.selectColumn}}</span>
+        </div>
+        <div *ngFor="let column of dataTable.columns" class="column-selector-column checkbox">
+            <input type="checkbox" [(ngModel)]="column.visible"/>
+            <span>&nbsp;{{column.header}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

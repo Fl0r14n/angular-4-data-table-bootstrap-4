@@ -1,0 +1,60 @@
+<data-table-title *ngIf="title"></data-table-title>
+<div class="position-relative">
+  <table class="table table-condensed data-table">
+    <thead>
+    <tr>
+      <th class="expand-column-header" *ngIf="expandColumnVisible">
+      <th class="index-column-header" *ngIf="indexColumnVisible">
+        <span [textContent]="indexColumnHeader"></span>
+      </th>
+      <th class="select-column-header" *ngIf="selectColumnVisible">
+        <input type="checkbox" [(ngModel)]="selectAllCheckbox" *ngIf="multiSelect"/>
+      </th>
+      <ng-container *ngFor="let column of columns">
+        <th class="column-header"
+            #th
+            (click)="headerClicked(column, $event)"
+            [class.sortable]="column.sortable"
+            [class.resizable]="column.resizable"
+            [ngClass]="column.ngStyleClass"
+            [style.width]="column.width | px"
+            *ngIf="column.visible">
+          <span *ngIf="!column.headerTemplate" [textContent]="column.header"></span>
+          <ng-container *ngIf="column.headerTemplate" [ngTemplateOutlet]="column.headerTemplate"
+                        [ngTemplateOutletContext]="{column: column}"></ng-container>
+          <span class="column-sort-icon" *ngIf="column.sortable">
+            <i class="fa fa-sort column-sortable-icon" *ngIf="column.property !== sortBy else sortByTemplate"></i>
+            <ng-template #sortByTemplate>
+              <i class="fa {{sortAsc ? 'fa-sort-desc' : 'fa-sort-asc'}}"></i>
+            </ng-template>
+          </span>
+          <span *ngIf="column.resizable" class="column-resize-handle"
+                (mousedown)="resizeColumnStart($event, column, th)"></span>
+        </th>
+      </ng-container>
+    </tr>
+    </thead>
+    <tbody #row
+           dataTableRow
+           [item]="item"
+           [index]="index"
+           (selectedChange)="onRowSelectChanged(row)"
+           *ngFor="let item of items; let index=index">
+    </tbody>
+    <tbody *ngIf="pagination && substituteRows">
+      <tr
+        [class.row-odd]="(index + items.length) % 2 === 0"
+        [class.row-even]="(index + items.length) % 2 === 1"
+        *ngFor="let item of substituteItems, let index = index">
+        <td *ngIf="expandColumnVisible"></td>
+        <td *ngIf="indexColumnVisible">&nbsp;</td>
+        <td *ngIf="selectColumnVisible"></td>
+        <ng-container *ngFor="let column of columns">
+          <td *ngIf="column.visible">
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+  <div class="loading-cover" *ngIf="showReloading && reloading"></div>
+</div>
+<data-table-pagination *ngIf="pagination"></data-table-pagination>

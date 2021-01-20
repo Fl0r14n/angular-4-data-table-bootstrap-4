@@ -1,0 +1,78 @@
+<div class="container">
+  <data-table class="demo4-table"
+              [items]="items"
+              [itemCount]="count"
+              (reload)="reloadFilms($event)"
+              [limit]="8"
+              [sortBy]="'rating'"
+              [substituteRows]="false">
+    <data-table-title title="Custom Title" [controls]="false">
+      <ng-template #titleTemplate let-items="items">
+        <div class="calendar-table-wrapper">
+          <table class="calendar-table small w-100">
+            <tbody>
+            <tr>
+              <td class="calendar-control"></td>
+              <td *ngFor="let week of weeks">
+              </td>
+              <td class="calendar-control"></td>
+            </tr>
+            <tr>
+              <td class="calendar-control text-center">
+                <button type="button" class="btn btn-light" (click)="decDate()">
+                  <strong class="fa fa-angle-left text-primary"></strong>
+                </button>
+              </td>
+              <td *ngFor="let month of months" [attr.colspan]="month.colspan">
+                <strong>{{month.month}}</strong><br/>{{month.year}}
+              </td>
+              <td class="calendar-control text-center">
+                <button type="button" class="btn btn-light" (click)="incDate()">
+                  <strong class="fa fa-angle-right text-primary"></strong>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-template>
+    </data-table-title>
+
+    <data-table-column property="title" header="Title" sortable="true" resizable="true">
+    </data-table-column>
+    <data-table-column property="year" header="Year" sortable="true" resizable="true">
+    </data-table-column>
+    <data-table-column [width]="600">
+      <ng-template #headerTemplate let-item="item">
+        <table class="calendar-table small w-100 text-center">
+          <tr>
+            <td class="calendar-control"></td>
+            <td *ngFor="let week of weeks">
+              <div>wk<br/>{{week}}</div>
+            </td>
+            <td class="calendar-control"></td>
+          </tr>
+        </table>
+      </ng-template>
+
+      <ng-template #cellTemplate let-item="item">
+        <table class="calendar-table small w-100 text-center">
+          <tr class="border-0 bg-transparent">
+            <td class="calendar-control">Rating</td>
+            <td *ngFor="let week of weeks; let index=index">
+              {{item.expected[index]}}
+            </td>
+            <td class="calendar-control"></td>
+          </tr>
+          <tr class="border-0 bg-transparent">
+            <td class="calendar-control">Actual</td>
+            <td *ngFor="let week of weeks; let index=index">
+              {{item.rating[index]}}
+            </td>
+            <td class="calendar-control"></td>
+          </tr>
+        </table>
+      </ng-template>
+    </data-table-column>
+  </data-table>
+</div>
